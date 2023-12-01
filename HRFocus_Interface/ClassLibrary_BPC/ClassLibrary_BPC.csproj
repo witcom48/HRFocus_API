@@ -67,6 +67,8 @@
     <Compile Include="hrfocus.controller\cls_ctTREmpSalary.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTEmpMain.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTBank.cs" />
+    <Compile Include="hrfocus.controller\cls_ctTRPRAllOwDeducVarFix.cs" />
+    <Compile Include="hrfocus.controller\cls_ctTRPRDeductFixVar.cs" />
     <Compile Include="hrfocus.model\cls_MTEmpDetail.cs" />
     <Compile Include="hrfocus.model\cls_MTPart.cs" />
     <Compile Include="hrfocus.model\cls_SYSLogApi.cs" />
@@ -78,6 +80,8 @@
     <Compile Include="hrfocus.model\cls_TREmpSalary.cs" />
     <Compile Include="hrfocus.model\cls_MTEmpMain.cs" />
     <Compile Include="hrfocus.model\cls_MTBank.cs" />
+    <Compile Include="hrfocus.model\cls_TRPRAllOwDeducVarFix.cs" />
+    <Compile Include="hrfocus.model\cls_TRPRDeductFixVar.cs" />
     <Compile Include="hrfocus.utility\cls_ctConnection.cs" />
     <Compile Include="hrfocus.utility\cls_Hash.cs" />
     <Compile Include="hrfocus.utility\cls_StyleDataGridView.cs" />

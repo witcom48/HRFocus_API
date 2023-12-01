@@ -23,6 +23,7 @@ using System.Security.Permissions;
 using System.Net;
 using System.IdentityModel.Tokens.Jwt;
 using System.Configuration;
+using System.Web.Script.Serialization;
 
 namespace HRFocusWCF
 {
@@ -889,7 +890,7 @@ namespace HRFocusWCF
            
 
             cls_ctMTEmpMain objEmp = new cls_ctMTEmpMain();
-            List<cls_MTEmpMain> listEmp = objEmp.getDataByFillter(com, emp);
+            List<cls_MTEmpMain> listEmp = objEmp.getDataByFillter(com, emp,"","","","");
 
             JArray array = new JArray();
 
@@ -1277,6 +1278,312 @@ namespace HRFocusWCF
         }
        
         #endregion
+
+
+        public ApiResponse<MTPosition> PositionMasterList(string CompanyCode, string PositionCode)
+        {
+            ApiResponse<MTPosition> response = new ApiResponse<MTPosition>();
+            response.data = new List<MTPosition>();
+            string ModifiedBy = "";
+            try
+            {
+                string url = WebOperationContext.Current.IncomingRequest.UriTemplateMatch.RequestUri.ToString();
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !doVerify(authHeader.Substring(7)))
+                {
+                    this.doRecordLog(CompanyCode, "EMD", "0", MessageNotAuthen, "");
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
+
+                    return response;
+                }
+                string tmp = authHeader.Substring(7);
+                var handler = new JwtSecurityTokenHandler();
+                var decodedValue = handler.ReadJwtToken(tmp);
+                var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
+                ModifiedBy = usr.Value;
+                cls_ctMTPosition controller = new cls_ctMTPosition();
+                List<cls_MTPosition> list = controller.getDataByFillter(CompanyCode == null ? "" : CompanyCode, PositionCode == null ? "" : PositionCode);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    foreach (cls_MTPosition data in list)
+                    {
+                        MTPosition MTPosition = new MTPosition();
+                        MTPosition.CompID = data.CompID;
+                        MTPosition.PositionID = data.PositionID;
+                        MTPosition.PositionNameT = data.PositionNameT;
+                        MTPosition.PositionNameE = data.PositionNameE;
+
+                        response.data.Add(MTPosition);
+                    }
+                }
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                response.success = true;
+                response.message = "indicates that the request succeeded and that the requested information is in the response.";
+                this.doRecordLog(CompanyCode, "EMD", "1", "success", usr.Value);
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                response.success = false;
+                response.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+                this.doRecordLog(CompanyCode, "EMD", "0", ex.ToString(), ModifiedBy);
+
+            }
+
+            return response;
+        }
+        public ApiResponse<Employee> EmployeeProfileList(string CompanyCode, string EmpType, string StartWorkFrom, string StartWorkTo, string ResignStatus)
+        {
+            ApiResponse<Employee> response = new ApiResponse<Employee>();
+            response.data = new List<Employee>();
+            string ModifiedBy = "";
+            try
+            {
+                string url = WebOperationContext.Current.IncomingRequest.UriTemplateMatch.RequestUri.ToString();
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !doVerify(authHeader.Substring(7)))
+                {
+                    this.doRecordLog(CompanyCode, "EMD", "0", MessageNotAuthen, "");
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
+
+                    return response;
+                }
+                string tmp = authHeader.Substring(7);
+                var handler = new JwtSecurityTokenHandler();
+                var decodedValue = handler.ReadJwtToken(tmp);
+                var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
+                ModifiedBy = usr.Value;
+                cls_ctMTEmpMain controller = new cls_ctMTEmpMain();
+                List<cls_MTEmpMain> list = controller.getDataByFillter(CompanyCode == null ? "" : CompanyCode, "", StartWorkFrom == null ? "" : StartWorkFrom, StartWorkTo == null ? "" : StartWorkTo, ResignStatus == null ? "" : ResignStatus, EmpType == null ? "" : EmpType);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    foreach (cls_MTEmpMain data in list)
+                    {
+                        Employee Employee = new Employee();
+                        Employee.CompID = data.CompID;
+                        Employee.EmpID = data.EmpID;
+                        Employee.BranchID = data.BranchID;
+                        Employee.InitialID = data.InitialID;
+                        Employee.EmpFName = data.EmpFName;
+                        Employee.EmpLName = data.EmpLName;
+                        Employee.EmpFNameT = data.EmpFNameT;
+                        Employee.EmpLNameT = data.EmpLNameT;
+                        Employee.EmpNickname = data.EmpNickname;
+                        Employee.EmpType = data.EmpType;
+                        Employee.EmpStatus = data.EmpStatus;
+                        Employee.WorkStartDate = data.WorkStartDate.ToString("yyyy-MM-dd'T'HH:mm:ss");
+                        Employee.ProbationEndDate = data.ProbationEndDate.ToString("yyyy-MM-dd'T'HH:mm:ss");
+                        Employee.ProbationLimit = data.ProbationLimit;
+                        Employee.ResignStatus = data.ResignStatus;
+                        Employee.ResignReasonID = data.ResignReasonID;
+                        Employee.ResignDetial = data.ResignDetial;
+                        Employee.HrsPerDay = data.HrsPerDay;
+
+                        response.data.Add(Employee);
+                    }
+                }
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                response.success = true;
+                response.message = "indicates that the request succeeded and that the requested information is in the response.";
+                this.doRecordLog(CompanyCode, "EMD", "1", "success", usr.Value);
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                response.success = false;
+                response.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+                this.doRecordLog(CompanyCode, "EMD", "0", ex.ToString(), ModifiedBy);
+
+            }
+
+            return response;
+        }
+        public ApiResponse<EmployeePositionModel> EmployeePositionList(string CompanyCode,string Fromdate, string Todate)
+        {
+            ApiResponse<EmployeePositionModel> response = new ApiResponse<EmployeePositionModel>();
+            response.data = new List<EmployeePositionModel>();
+            string ModifiedBy = "";
+            try
+            {
+                string url = WebOperationContext.Current.IncomingRequest.UriTemplateMatch.RequestUri.ToString();
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !doVerify(authHeader.Substring(7)))
+                {
+                    this.doRecordLog(CompanyCode, "EMD", "0", MessageNotAuthen, "");
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
+
+                    return response;
+                }
+                string tmp = authHeader.Substring(7);
+                var handler = new JwtSecurityTokenHandler();
+                var decodedValue = handler.ReadJwtToken(tmp);
+                var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
+                ModifiedBy = usr.Value;
+                cls_ctTREmpPosition controller = new cls_ctTREmpPosition();
+                List<cls_TREmpPosition> list = controller.getDataByFillter2(CompanyCode == null ? "" : CompanyCode, "", Fromdate == null ? "" : Fromdate, Todate == null ? "" : Todate);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    foreach (cls_TREmpPosition data in list)
+                    {
+                        EmployeePositionModel EmployeePositionModel = new EmployeePositionModel();
+                        EmployeePositionModel.CompID = data.CompID;
+                        EmployeePositionModel.EmpID = data.EmpID;
+                        EmployeePositionModel.PositionID = data.PositionID;
+                        EmployeePositionModel.PositionDate = data.PositionDate.ToString("yyyy-MM-dd'T'HH:mm:ss");
+                        EmployeePositionModel.PositionNameE = data.PositionNameE;
+                        EmployeePositionModel.PositionNameT = data.PositionNameT;
+                        EmployeePositionModel.ReasonID = data.ReasonID;
+                        EmployeePositionModel.ReasonNameE = data.ReasonNameE;
+                        EmployeePositionModel.ReasonNameT = data.ReasonNameT;
+
+                        response.data.Add(EmployeePositionModel);
+                    }
+                }
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                response.success = true;
+                response.message = "indicates that the request succeeded and that the requested information is in the response.";
+                this.doRecordLog(CompanyCode, "EMD", "1", "success", usr.Value);
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                response.success = false;
+                response.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+                this.doRecordLog(CompanyCode, "EMD", "0", ex.ToString(), ModifiedBy);
+
+            }
+
+            return response;
+        }
+        public ApiResponse<IncomeDeduct> IncomeDeductCreate(IncomeDeductInput input)
+        {
+            ApiResponse<IncomeDeduct> response = new ApiResponse<IncomeDeduct>();
+            response.data = new List<IncomeDeduct>();
+            string ModifiedBy = "";
+            try
+            {
+                string url = WebOperationContext.Current.IncomingRequest.UriTemplateMatch.RequestUri.ToString();
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !doVerify(authHeader.Substring(7)))
+                {
+                    this.doRecordLog(input.data[0].CompID, "EMD", "0", MessageNotAuthen, "");
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
+
+                    return response;
+                }
+                string tmp = authHeader.Substring(7);
+                var handler = new JwtSecurityTokenHandler();
+                var decodedValue = handler.ReadJwtToken(tmp);
+                var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
+                ModifiedBy = usr.Value;
+                int success = 0;
+                int Failed = 0;
+                cls_ctTRPRAllOwDeducVarFix controller = new cls_ctTRPRAllOwDeducVarFix();
+                cls_ctTRPRDeductFixVar controller2 = new cls_ctTRPRDeductFixVar();
+                foreach (IncomeDeduct data in input.data)
+                {
+                    if(data.PaidType.Equals("IN")){
+                    cls_TRPRAllOwDeducVarFix model = new cls_TRPRAllOwDeducVarFix();
+                    model.CompID = data.CompID;
+                    model.EmpID = data.EmpID;
+                    model.FromDate = Convert.ToDateTime(data.FromDate);
+                    model.ToDate = Convert.ToDateTime(data.ToDate);
+                    model.AllwDeducID = data.PaidCode;
+                    model.QuantityAD = data.Quantity;
+                    model.Amount = data.Amount;
+                    model.Note = data.Description;
+                    model.YearID = data.YearID;
+                    model.PeriodID = data.PeriodID;
+                    if(data.PayType.Equals("B")){
+                        model.PayType = "Bank";
+                    }
+                    if (data.PayType.Equals("C"))
+                    {
+                        model.PayType = "Cash";
+                    }
+                    if (controller.AddAllOwDeducVarFix(model))
+                    {
+                        data.Insert_Update = true;
+                        success++;
+                    }
+                    else
+                    {
+                        data.Insert_Update = false;
+                        Failed++;
+                    }
+                }
+                    if (data.PaidType.Equals("DE"))
+                    {
+                        cls_TRPRDeductFixVar model = new cls_TRPRDeductFixVar();
+                        model.CompID = data.CompID;
+                        model.EmpID = data.EmpID;
+                        model.FromDate = Convert.ToDateTime(data.FromDate);
+                        model.ToDate = Convert.ToDateTime(data.ToDate);
+                        model.DeductID = data.PaidCode;
+                        model.QuantityAD = data.Quantity;
+                        model.Amount = data.Amount;
+                        model.Note = data.Description;
+                        model.YearID = data.YearID;
+                        model.PeriodID = data.PeriodID;
+                        if (data.PayType.Equals("B"))
+                        {
+                            model.PayType = "Bank";
+                        }
+                        if (data.PayType.Equals("C"))
+                        {
+                            model.PayType = "Cash";
+                        }
+                        if (controller2.AddDeduction(model))
+                        {
+                            data.Insert_Update = true;
+                            success++;
+                        }
+                        else
+                        {
+                            data.Insert_Update = false;
+                            Failed++;
+                        }
+                    }
+                    response.data.Add(data);
+                }
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Created;
+                response.success = true;
+                response.message = "indicates that the request resulted in a new resource created before the response was sent. || Success: " + success + " Failed: " + Failed;
+
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                response.success = false;
+                response.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+                this.doRecordLog(input.data[0].CompID, "EMD", "0", ex.ToString(), ModifiedBy);
+
+            }
+
+            return response;
+        }
+
 
         public string doManagePosition(InputPosition input)
         {

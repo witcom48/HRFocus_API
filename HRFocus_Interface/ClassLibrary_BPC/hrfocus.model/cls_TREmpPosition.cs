@@ -21,7 +21,12 @@ namespace ClassLibrary_BPC.hrfocus.model
         public DateTime UpdateDate { get; set; }
         public string PositionName2 { get; set; }    
         public DateTime JobDescDate { get; set; }            
-        public string PositionID2 { get; set; }    
+        public string PositionID2 { get; set; }
+
+        public string PositionNameE { get; set; }
+        public string PositionNameT { get; set; }
+        public string ReasonNameE { get; set; }
+        public string ReasonNameT { get; set; }
 
 
 

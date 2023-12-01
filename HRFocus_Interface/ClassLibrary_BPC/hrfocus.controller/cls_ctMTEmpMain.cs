@@ -108,7 +108,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTEmpMain> getDataByFillter(string com, string emp)
+        public List<cls_MTEmpMain> getDataByFillter(string com, string emp,string from ,string to,string status,string type)
         {
             string strCondition = "";
 
@@ -117,6 +117,18 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (!emp.Equals(""))
                 strCondition += " AND EmpID='" + emp + "'";
+
+            if (!from.Equals("") && !to.Equals(""))
+                strCondition += " AND (WorkStartDate BETWEEN '" + Convert.ToDateTime(from).ToString("yyyy-MM-dd") + "' AND '" + Convert.ToDateTime(to).ToString("yyyy-MM-dd") + "')";
+
+            if (status.Equals("Y"))
+                strCondition += " AND ResignStatus=" + 1 + "";
+
+            if (status.Equals("N"))
+                strCondition += " AND ResignStatus=" + 0 + "";
+
+            if (type.Equals("M") || type.Equals("D"))
+                strCondition += " AND EmpType='" + type + "'";
             
             return this.getData(strCondition);
         }

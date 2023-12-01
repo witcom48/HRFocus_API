@@ -65,6 +65,23 @@ namespace HRFocusWCF
         [OperationContract(Name = "doManagePart")]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         string doManagePart(InputPart input);
+
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "PositionMaster?CompanyCode={com}&PositionCode={code}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<MTPosition> PositionMasterList(string com, string code);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "EmployeeProfile?CompanyCode={com}&EmpType={type}&StartWorkFrom={from}&StartWorkTo={to}&ResignStatus={status}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<Employee> EmployeeProfileList(string com, string type, string from, string to, string status);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "EmployeePosition?CompanyCode={com}&Fromdate={from}&Todate={to}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<EmployeePositionModel> EmployeePositionList(string com, string from, string to);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", UriTemplate = "IncomeDeduct", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<IncomeDeduct> IncomeDeductCreate(IncomeDeductInput input);
         
     }
 

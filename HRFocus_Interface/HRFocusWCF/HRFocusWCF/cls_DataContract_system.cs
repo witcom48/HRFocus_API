@@ -352,4 +352,80 @@ namespace HRFocusWCF
         public string ModifiedBy { get; set; }
     }
 
+    public class ApiResponse<T>
+    {
+        public bool success { get; set; }
+        public string message { get; set; }
+        public List<T> data { get; set; }
+    }
+
+    public class MTPosition
+    {
+        public string CompID { get; set; }
+        public string EmpID { get; set; }
+        public string PositionID { get; set; }
+        public string PositionNameT { get; set; }
+        public string PositionNameE { get; set; }
+    }
+    public class EmployeePositionModel
+    {
+        public string CompID { get; set; }
+        public string EmpID { get; set; }
+        public string PositionID { get; set; }
+        public string PositionDate { get; set; }
+        public string PositionNameE { get; set; }
+        public string PositionNameT { get; set; }
+        public string ReasonID { get; set; }
+        public string ReasonNameE { get; set; }
+        public string ReasonNameT { get; set; }
+    }
+    public class Employee
+    {
+        public string CompID { get; set; }
+        public string EmpID { get; set; }
+        public string BranchID { get; set; }
+        public string InitialID { get; set; }
+        public string EmpFName { get; set; }
+        public string EmpLName { get; set; }
+        public string EmpFNameT { get; set; }
+        public string EmpLNameT { get; set; }
+        public string EmpNickname { get; set; }
+        public string EmpType { get; set; }
+        public string EmpStatus { get; set; }
+        public string WorkStartDate { get; set; }
+        public string ProbationEndDate { get; set; }
+        public int ProbationLimit { get; set; }
+        public double HrsPerDay { get; set; }
+        public bool ResignStatus { get; set; }
+        public string ResignDate { get; set; }
+        public string ResignReasonID { get; set; }
+        public string ResignDetial { get; set; }
+    }
+
+
+    public class IncomeDeductInput
+    {
+        public List<IncomeDeduct> data { get; set; }
+    }
+    public class IncomeDeduct
+    {
+        public string CompID { get; set; }
+        public string EmpID { get; set; }
+        public string PaidCode { get; set; }
+        public string PaidType { get; set; }
+        public string PeriodID { get; set; }
+        public string PeriodFrom { get; set; }
+        public string PeriodTo { get; set; }
+        public string YearID { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public decimal Amount { get; set; }
+        public decimal Quantity { get; set; }
+        public string PayType { get; set; }
+        public string Description { get; set; }
+
+        public bool Insert_Update { get; set; }
+
+    }
+
 }
