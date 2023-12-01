@@ -1,0 +1,306 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "OPR API Interface",
+        "description": ""
+    },
+    "paths": {
+        "/ServiceSys.svc/ServiceSys/doAuthen": {
+            "post": {
+                "tags": [
+                    "Authen"
+                ],
+                "summary": "doAuthen",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/ServiceSys.svc/ServiceSys/PositionMaster": {
+            "get": {
+                "tags": [
+                    "PositionMaster"
+                ],
+                "summary": "Get PositionMaster",
+                "parameters": [
+                    {
+                        "name": "CompanyCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "HITT"
+                    },
+                    {
+                        "name": "PositionCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/ServiceSys.svc/ServiceSys/EmployeeProfile": {
+            "get": {
+                "tags": [
+                    "EmployeeProfile"
+                ],
+                "summary": "Get EmployeeProfile",
+                "parameters": [
+                    {
+                        "name": "CompanyCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "HITT"
+                    },
+                    {
+                        "name": "EmpType",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "description": "M = Monthly or D = Daily"
+                    },
+                    {
+                        "name": "StartWorkFrom",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "2023-01-01",
+                        "description": "yyyy-MM-dd"
+                    },
+                    {
+                        "name": "StartWorkTo",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "2023-12-31",
+                        "description": "yyyy-MM-dd"
+                    },
+                    {
+                        "name": "ResignStatus",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "description": "Y = True or N = False"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/ServiceSys.svc/ServiceSys/EmployeePosition": {
+            "get": {
+                "tags": [
+                    "EmployeePosition"
+                ],
+                "summary": "Get EmployeePosition",
+                "parameters": [
+                    {
+                        "name": "CompanyCode",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "value": "HITT"
+                    },
+                    {
+                        "name": "Fromdate",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "value": "2023-01-01",
+                        "description": "yyyy-MM-dd"
+                    },
+                    {
+                        "name": "Todate",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "value": "2023-12-31",
+                        "description": "yyyy-MM-dd"
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/ServiceSys.svc/ServiceSys/IncomeDeduct": {
+            "post": {
+                "tags": [
+                    "IncomeDeduct"
+                ],
+                "summary": "Create IncomeDeduct",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/IncomeDeductInput"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "AuthRequest": {
+                "required": [
+                    "usname",
+                    "pwd"
+                ],
+                "type": "object",
+                "properties": {
+                    "usname": {
+                        "type": "string"
+                    },
+                    "pwd": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "usname": "admin",
+                    "pwd": "2022*"
+                }
+            },
+            "IncomeDeductInput": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/IncomeDeduct"
+                        }
+                    }
+                }
+            },
+            "IncomeDeduct": {
+                "type": "object",
+                "properties": {
+                    "CompID": {
+                        "type": "string"
+                    },
+                    "EmpID": {
+                        "type": "string"
+                    },
+                    "PaidCode": {
+                        "type": "string"
+                    },
+                    "PaidType": {
+                        "type": "string"
+                    },
+                    "PeriodID": {
+                        "type": "string"
+                    },
+                    "YearID": {
+                        "type": "string"
+                    },
+                    "FromDate": {
+                        "type": "string"
+                    },
+                    "ToDate": {
+                        "type": "string"
+                    },
+                    "Amount": {
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    "Quantity": {
+                        "type": "number",
+                        "format": "decimal"
+                    },
+                    "PayType": {
+                        "type": "string"
+                    },
+                    "Description": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "CompID": "HITT",
+                    "EmpID": "P00007",
+                    "PaidCode": "IN15",
+                    "PaidType": "IN",
+                    "PeriodID": "11",
+                    "FromDate": "2023-12-01",
+                    "ToDate": "2023-12-01",
+                    "YearID": "2023",
+                    "Amount": 15000,
+                    "Quantity": 1.0,
+                    "PayType": "B",
+                    "Description": ""
+                }
+            }
+        }
+    }
+}

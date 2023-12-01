@@ -97,6 +97,76 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return this.getData(strCondition);
         }
 
+        private List<cls_TREmpPosition> getData2(string condition)
+        {
+            List<cls_TREmpPosition> list_model = new List<cls_TREmpPosition>();
+            cls_TREmpPosition model;
+            try
+            {
+                System.Text.StringBuilder obj_str = new System.Text.StringBuilder();
+
+                obj_str.Append("SELECT ");
+                obj_str.Append("tbTREmpPosition.CompID, ");
+                obj_str.Append("tbTREmpPosition.EmpID, ");
+                obj_str.Append("tbTREmpPosition.PositionID, ");
+                obj_str.Append("tbTREmpPosition.PositionDate, ");
+                obj_str.Append("tbMTPosition.PositionNameE, ");
+                obj_str.Append("tbMTPosition.PositionNameT, ");
+                obj_str.Append("tbTREmpPosition.ReasonID, ");
+                obj_str.Append("tbMTReason.ReasonNameE, ");
+                obj_str.Append("tbMTReason.ReasonNameT ");
+                obj_str.AppendLine("FROM tbTREmpPosition");
+                obj_str.AppendLine("JOIN tbMTPosition ON tbMTPosition.CompID = tbTREmpPosition.CompID AND tbMTPosition.PositionID = tbTREmpPosition.PositionID");
+                obj_str.AppendLine("JOIN tbMTReason ON tbMTReason.ReasonID = tbTREmpPosition.ReasonID AND tbMTReason.ReasonGroup = 'POS'");
+                obj_str.Append(" WHERE 1=1");
+
+                if (!condition.Equals(""))
+                    obj_str.Append(" " + condition);
+
+                DataTable dt = Obj_conn.doGetTable(obj_str.ToString());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    model = new cls_TREmpPosition();
+
+                    model.CompID = dr["CompID"].ToString();
+                    model.EmpID = dr["EmpID"].ToString();
+                    model.PositionID = dr["PositionID"].ToString();
+                    model.PositionDate = Convert.ToDateTime(dr["PositionDate"]);
+                    model.PositionNameE = dr["PositionNameE"].ToString();
+                    model.PositionNameT = dr["PositionNameT"].ToString();
+                    model.ReasonID = dr["ReasonID"].ToString();
+                    model.ReasonNameE = dr["ReasonNameE"].ToString();
+                    model.ReasonNameT = dr["ReasonNameT"].ToString();
+
+                    list_model.Add(model);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Message = "ERROR::(Position.getData2)" + ex.ToString();
+            }
+
+            return list_model;
+        }
+
+        public List<cls_TREmpPosition> getDataByFillter2(string com, string emp,string from, string to)
+        {
+            string strCondition = "";
+
+            if (!com.Equals(""))
+                strCondition += " AND tbTREmpPosition.CompID='" + com + "'";
+
+            if (!emp.Equals(""))
+                strCondition += " AND tbTREmpPosition.EmpID='" + emp + "'";
+
+            if (!from.Equals("") && !to.Equals(""))
+                strCondition += "AND tbTREmpPosition.PositionDate BETWEEN '" + Convert.ToDateTime(from).ToString("yyyy-MM-dd") + "' AND '" + Convert.ToDateTime(to).ToString("yyyy-MM-dd") + "'";
+
+            return this.getData2(strCondition);
+        }
+
         public bool checkDataOld(string com, string emp, DateTime date)
         {
             bool blnResult = false;
