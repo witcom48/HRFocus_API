@@ -58,6 +58,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTEmpDetail.cs" />
     <Compile Include="hrfocus.controller\cls_ctMTPart.cs" />
+    <Compile Include="hrfocus.controller\cls_ctMTPOLPeriodic.cs" />
     <Compile Include="hrfocus.controller\cls_ctSYSLogApi.cs" />
     <Compile Include="hrfocus.controller\cls_ctTREmpBenefit.cs" />
     <Compile Include="hrfocus.controller\cls_ctTREmpPart.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="hrfocus.controller\cls_ctTRPRDeductFixVar.cs" />
     <Compile Include="hrfocus.model\cls_MTEmpDetail.cs" />
     <Compile Include="hrfocus.model\cls_MTPart.cs" />
+    <Compile Include="hrfocus.model\cls_MTPOLPeriodic.cs" />
     <Compile Include="hrfocus.model\cls_SYSLogApi.cs" />
     <Compile Include="hrfocus.model\cls_TREmpBenefit.cs" />
     <Compile Include="hrfocus.model\cls_TREmpPart.cs" />
