@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
+using ClassLibrary_BPC.hrfocus.model;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Authentication;
@@ -82,6 +83,10 @@ namespace HRFocusWCF
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "IncomeDeduct", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         ApiResponse<IncomeDeduct> IncomeDeductCreate(IncomeDeductInput input);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "Period?CompanyCode={com}&PeriodYear={year}&EmpType={type}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ApiResponse<tbPOLPeriodic> PeriodList(string com, string year, string type);
         
     }
 

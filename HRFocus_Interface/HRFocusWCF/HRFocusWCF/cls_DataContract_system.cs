@@ -428,4 +428,19 @@ namespace HRFocusWCF
 
     }
 
+    public class tbPOLPeriodic
+    {
+        public string CompID { get; set; }
+        public string PeriodID { get; set; }
+        public string PeriodYear { get; set; }
+        public string EmpType { get; set; }
+        public string PeriodNameT { get; set; }
+        public string PeriodNameE { get; set; }
+        public string PaymentDate { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public bool? ClosePR { get; set; }
+        public bool? CloseTA { get; set; }
+    }
+
 }

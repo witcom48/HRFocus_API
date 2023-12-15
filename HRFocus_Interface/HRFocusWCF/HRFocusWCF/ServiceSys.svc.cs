@@ -1583,6 +1583,70 @@ namespace HRFocusWCF
 
             return response;
         }
+        public ApiResponse<tbPOLPeriodic> PeriodList(string CompanyCode, string PeriodYear, string EmpType)
+        {
+            ApiResponse<tbPOLPeriodic> response = new ApiResponse<tbPOLPeriodic>();
+            response.data = new List<tbPOLPeriodic>();
+            string ModifiedBy = "";
+            try
+            {
+                string url = WebOperationContext.Current.IncomingRequest.UriTemplateMatch.RequestUri.ToString();
+                var authHeader = WebOperationContext.Current.IncomingRequest.Headers["Authorization"];
+                if (authHeader == null || !doVerify(authHeader.Substring(7)))
+                {
+                    this.doRecordLog(CompanyCode, "EMD", "0", MessageNotAuthen, "");
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    response.success = false;
+                    response.message = "indicates that the requested resource requires authentication.";
+
+                    return response;
+                }
+                string tmp = authHeader.Substring(7);
+                var handler = new JwtSecurityTokenHandler();
+                var decodedValue = handler.ReadJwtToken(tmp);
+                var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
+                ModifiedBy = usr.Value;
+                cls_ctMTPOLPeriodic controller = new cls_ctMTPOLPeriodic();
+                List<cls_MTPOLPeriodic> list = controller.GetPeriodicRecord(CompanyCode,"",EmpType,PeriodYear);
+
+                JArray array = new JArray();
+
+                if (list.Count > 0)
+                {
+                    foreach (cls_MTPOLPeriodic data in list)
+                    {
+                        tbPOLPeriodic model = new tbPOLPeriodic();
+                        model.CompID = data.CompID;
+                        model.PeriodID = data.PeriodID;
+                        model.EmpType = data.EmpType;
+                        model.PeriodYear = data.PeriodYear;
+                        model.PeriodNameT = data.PeriodNameT;
+                        model.PeriodNameE = data.PeriodNameE;
+                        model.PaymentDate = data.PaymentDate.ToString("yyyy-MM-dd'T'HH:mm:ss");
+                        model.FromDate = data.FromDate.ToString("yyyy-MM-dd'T'HH:mm:ss");
+                        model.ToDate = data.ToDate.ToString("yyyy-MM-dd'T'HH:mm:ss");
+                        model.CloseTA = data.CloseTA;
+                        model.ClosePR = data.ClosePR;
+                        response.data.Add(model);
+                    }
+                }
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                response.success = true;
+                response.message = "indicates that the request succeeded and that the requested information is in the response.";
+                this.doRecordLog(CompanyCode, "EMD", "1", "success", usr.Value);
+                controller.dispose();
+            }
+            catch (Exception ex)
+            {
+                response.success = false;
+                response.message = ex.ToString();
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.InternalServerError;
+                this.doRecordLog(CompanyCode, "EMD", "0", ex.ToString(), ModifiedBy);
+
+            }
+
+            return response;
+        }
 
 
         public string doManagePosition(InputPosition input)
