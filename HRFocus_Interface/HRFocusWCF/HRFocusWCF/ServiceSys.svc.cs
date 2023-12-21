@@ -890,7 +890,7 @@ namespace HRFocusWCF
            
 
             cls_ctMTEmpMain objEmp = new cls_ctMTEmpMain();
-            List<cls_MTEmpMain> listEmp = objEmp.getDataByFillter(com, emp,"","","","");
+            List<cls_MTEmpMain> listEmp = objEmp.getDataByFillter(com, emp,"","","","","");
 
             JArray array = new JArray();
 
@@ -1338,7 +1338,7 @@ namespace HRFocusWCF
 
             return response;
         }
-        public ApiResponse<Employee> EmployeeProfileList(string CompanyCode, string EmpType, string StartWorkFrom, string StartWorkTo, string ResignStatus)
+        public ApiResponse<Employee> EmployeeProfileList(string CompanyCode, string EmpType, string StartWorkFrom, string StartWorkTo, string ResignStatus, string BranchID)
         {
             ApiResponse<Employee> response = new ApiResponse<Employee>();
             response.data = new List<Employee>();
@@ -1362,7 +1362,7 @@ namespace HRFocusWCF
                 var usr = decodedValue.Claims.Single(claim => claim.Type == "user_aabbcc");
                 ModifiedBy = usr.Value;
                 cls_ctMTEmpMain controller = new cls_ctMTEmpMain();
-                List<cls_MTEmpMain> list = controller.getDataByFillter(CompanyCode == null ? "" : CompanyCode, "", StartWorkFrom == null ? "" : StartWorkFrom, StartWorkTo == null ? "" : StartWorkTo, ResignStatus == null ? "" : ResignStatus, EmpType == null ? "" : EmpType);
+                List<cls_MTEmpMain> list = controller.getDataByFillter(CompanyCode == null ? "" : CompanyCode, "", StartWorkFrom == null ? "" : StartWorkFrom, StartWorkTo == null ? "" : StartWorkTo, ResignStatus == null ? "" : ResignStatus, EmpType == null ? "" : EmpType, BranchID == null ? "" : BranchID);
 
                 JArray array = new JArray();
 
