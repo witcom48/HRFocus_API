@@ -108,7 +108,7 @@ namespace ClassLibrary_BPC.hrfocus.controller
             return list_model;
         }
 
-        public List<cls_MTEmpMain> getDataByFillter(string com, string emp,string from ,string to,string status,string type)
+        public List<cls_MTEmpMain> getDataByFillter(string com, string emp, string from, string to, string status, string type, string BranchID)
         {
             string strCondition = "";
 
@@ -129,6 +129,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
 
             if (type.Equals("M") || type.Equals("D"))
                 strCondition += " AND EmpType='" + type + "'";
+
+            if (!BranchID.Equals(""))
+                strCondition += " AND BranchID='" + BranchID + "'";
             
             return this.getData(strCondition);
         }

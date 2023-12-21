@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "version": "1.0.0",
-        "title": "OPR API Interface",
+        "title": "Hrfocus API",
         "description": ""
     },
     "paths": {
@@ -111,6 +111,12 @@
                         "required": false,
                         "type": "string",
                         "description": "Y = True or N = False"
+                    },
+                    {
+                        "name": "BranchID",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
                     }
                 ],
                 "security": [
@@ -274,8 +280,8 @@
                     }
                 },
                 "example": {
-                    "usname": "admin",
-                    "pwd": "2022*"
+                    "usname": "",
+                    "pwd": ""
                 }
             },
             "IncomeDeductInput": {
