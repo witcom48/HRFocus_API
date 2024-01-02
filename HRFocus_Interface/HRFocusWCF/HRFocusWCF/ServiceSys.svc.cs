@@ -1389,6 +1389,9 @@ namespace HRFocusWCF
                         Employee.ResignReasonID = data.ResignReasonID;
                         Employee.ResignDetial = data.ResignDetial;
                         Employee.HrsPerDay = data.HrsPerDay;
+                        Employee.CardNo = data.CardNo;
+                        Employee.BirthDay = data.BirthDay.ToString("yyyy-MM-dd'T'HH:mm:ss");
+                        Employee.Tel = data.PreTel;
 
                         response.data.Add(Employee);
                     }

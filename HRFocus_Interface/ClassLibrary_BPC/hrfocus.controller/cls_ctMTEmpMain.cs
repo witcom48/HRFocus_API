@@ -51,8 +51,11 @@ namespace ClassLibrary_BPC.hrfocus.controller
                 obj_str.Append(", ProbationLimit");     
                 obj_str.Append(", PayPerBank");
                 obj_str.Append(", PayPerCash");
-                obj_str.Append(", BankAccNoComp");     
+                obj_str.Append(", BankAccNoComp");
                 obj_str.Append(", HrsPerDay");
+                obj_str.Append(", CardNo");
+                obj_str.Append(", BirthDay");
+                obj_str.Append(", PreTel");
                 obj_str.Append(", ISNULL(ResignStatus, 0) AS ResignStatus");
                 obj_str.Append(", ISNULL(ResignDate, '') AS ResignDate");
                 obj_str.Append(", ISNULL(ResignReasonID, '') AS ResignReasonID");
@@ -95,6 +98,9 @@ namespace ClassLibrary_BPC.hrfocus.controller
                     model.ResignReasonID = dr["ResignReasonID"].ToString();
                     model.ResignDetial = dr["ResignDetial"].ToString();
                     model.HrsPerDay = Convert.ToDouble(dr["HrsPerDay"]);
+                    model.CardNo = dr["CardNo"].ToString();
+                    model.BirthDay = Convert.ToDateTime(dr["BirthDay"]);
+                    model.PreTel = dr["PreTel"].ToString();
              
                     list_model.Add(model);
                 }
