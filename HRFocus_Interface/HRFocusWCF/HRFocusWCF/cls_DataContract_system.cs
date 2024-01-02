@@ -400,6 +400,9 @@ namespace HRFocusWCF
         public string ResignDate { get; set; }
         public string ResignReasonID { get; set; }
         public string ResignDetial { get; set; }
+        public string CardNo { get; set; }
+        public string BirthDay { get; set; }
+        public string Tel { get; set; }
     }
 
 

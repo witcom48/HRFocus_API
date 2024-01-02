@@ -20,7 +20,7 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string EmpFNameT { get; set; }	
         public string EmpLNameT { get; set; }	
         public string EmpNickname { get; set; }	
-        public string EmpType { get; set; }	
+        public string EmpType { get; set; }
         public string EmpStatus	 { get; set; }
         public DateTime WorkStartDate { get; set; }
         public DateTime ProbationEndDate { get; set; }	
@@ -33,6 +33,9 @@ namespace ClassLibrary_BPC.hrfocus.model
         public string ResignReasonID { get; set; }	
         public string ResignDetial { get; set; }
         public double HrsPerDay { get; set; }
+        public string CardNo { get; set; }
+        public DateTime BirthDay { get; set; }
+        public string PreTel { get; set; }
 
         public string modified_by { get; set; }
         public DateTime modified_date { get; set; }
